@@ -38,12 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
 
     # 3rd party apps
     'django_celery_beat',
     'debug_toolbar',
 
     # local apps
+    'user',
+    'game',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +130,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+AUTH_USER_MODEL = 'user.Player'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -148,17 +153,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_DEFAULT_QUEUE = 'default'
 
-
-# -----> TELEGRAM
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-if TELEGRAM_TOKEN is None:
-    logging.error(
-        "Please provide TELEGRAM_TOKEN in .env file.\n"
-        "Example of .env file: https://github.com/ohld/django-telegram-bot/blob/main/.env_example"
-    )
-    sys.exit(1)
-
-TELEGRAM_LOGS_CHAT_ID = os.getenv("TELEGRAM_LOGS_CHAT_ID", default=None)
 
 # -----> SENTRY
 # import sentry_sdk

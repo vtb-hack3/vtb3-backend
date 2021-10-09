@@ -10,6 +10,8 @@ django-cors-headers
 django-debug-toolbar
 djangorestframework
 whitenoise
+channels
+channels-redis
 
 # Django 3.0 async requirements
 gunicorn
