@@ -9,9 +9,8 @@ django-timezone-field
 django-cors-headers
 django-debug-toolbar
 djangorestframework
+django-redis
 whitenoise
-channels
-channels-redis
 
 # Django 3.0 async requirements
 gunicorn
@@ -27,6 +26,3 @@ dj-database-url
 celery
 redis
 django-celery-beat
-
-# monitoring
-# sentry-sdk

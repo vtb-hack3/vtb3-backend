@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from user.models import Player
-from utils.models import CreateTracker
+from utils.models import CreateTracker, nb
 
 
 class Answer(CreateTracker):
@@ -16,15 +16,22 @@ class Question(CreateTracker):
     answers = models.ManyToManyField(Answer)
 
 
-class Game(CreateTracker):
+class GameRoom(CreateTracker):
     questions = models.ManyToManyField(Question)
+
+    creator = models.ForeignKey(Player, on_delete=models.PROTECT)
+    opponent = models.ForeignKey(Player, on_delete=models.SET_NULL, related_name='opponent', **nb)
+
+    finished_at = models.DateTimeField(**nb)
+    is_joinable = models.BooleanField(default=True)
 
 
 class GameAnswer(CreateTracker):
-    game = models.ForeignKey(Game, on_delete=models.PROTECT)
+    room = models.ForeignKey(GameRoom, on_delete=models.PROTECT)
 
     player = models.ForeignKey(Player, on_delete=models.PROTECT)
 
+    question = models.ForeignKey(Question, on_delete=models.PROTECT)
     answer = models.ForeignKey(Answer, on_delete=models.PROTECT)
 
     is_right = models.BooleanField(default=False)

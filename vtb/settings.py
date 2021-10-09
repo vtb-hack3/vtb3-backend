@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'channels',
 
     # 3rd party apps
     'django_celery_beat',
@@ -100,6 +99,16 @@ ASGI_APPLICATION = 'vtb.asgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(conn_max_age=600, default="sqlite:///db.sqlite3"),
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 # Password validation
