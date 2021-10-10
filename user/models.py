@@ -4,8 +4,8 @@ from utils.models import CreateTracker
 
 
 class Player(CreateTracker):
-    BEGINNER = 'beginner'
-    EXPERIENCED = 'experienced'
+    BEGINNER = 'newbie'
+    EXPERIENCED = 'expirienced'
     EXPERT = 'expert'
     STATUSES = (
         (BEGINNER, 'начинающий'),

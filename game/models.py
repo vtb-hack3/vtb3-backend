@@ -14,6 +14,9 @@ class Answer(CreateTracker):
 
     description = models.TextField(max_length=256)
 
+    class Meta:
+        ordering = ('id', )
+
     def __str__(self):
         return f"right: {self.is_right}, {self.text}"
 
@@ -23,8 +26,11 @@ class Question(CreateTracker):
 
     answers = models.ManyToManyField(Answer)
 
+    class Meta:
+        ordering = ('id', )
+
     def __str__(self):
-        return f"{self.text}"
+        return f"id = {self.id} {self.text}"
 
     @classmethod
     def get_3_random_questions(cls) -> QuerySet:

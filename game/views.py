@@ -3,7 +3,7 @@ from datetime import datetime
 from django.shortcuts import render
 from rest_framework.views import APIView
 from game.models import GameRoom, Question, GameAnswer
-from game.serialaizers import GameRoomSerializer, ReadGameAnswerSerializer
+from game.serialaizers import GameRoomSerializer, ReadGameAnswerSerializer, AnswerSerializer
 from user.models import Player
 from utils.api import CustomJsonResponse
 
@@ -82,3 +82,46 @@ class CountTotalAnswersForQuestionAPIView(APIView):
         total_answers = GameAnswer.objects.filter(room_id=room_id, player_id=user_id, question_id=question_id).count()
 
         return CustomJsonResponse(data={'total_answers': total_answers})
+
+
+class TimerAPIView(APIView):
+    def get(self, request, room_id, user_id, *args, **kwargs):
+        game_room = GameRoom.objects.get(id=room_id)
+        game_questions = game_room.questions.all()
+        player = Player.objects.get(id=user_id)
+
+        seconds_from_start = (datetime.now() - game_room.started_at.replace(tzinfo=None)).seconds
+        if 0 <= seconds_from_start < 15:
+            seconds_left = 15 - seconds_from_start
+            question = game_questions[0]
+        elif 15 <= seconds_from_start < 18:
+            seconds_left = 0
+            question = game_questions[0]
+        elif 18 <= seconds_from_start < 33:
+            seconds_left = 33 - seconds_from_start
+            question = game_questions[1]
+        elif 33 <= seconds_from_start < 36:
+            seconds_left = 0
+            question = game_questions[1]
+        elif 36 <= seconds_from_start < 51:
+            seconds_left = 51 - seconds_from_start
+            question = game_questions[2]
+        else:
+            seconds_left = 0
+            question = game_questions[2]
+
+        if game_room.creator == player:
+            opponent = game_room.opponent
+        else:
+            opponent = game_room.creator
+
+        opponent_answer = GameAnswer.objects.filter(room=game_room, player=opponent, question=question).first()
+        opponent_answer = AnswerSerializer(opponent_answer.answer).data if opponent_answer else None
+
+        data = {
+            'seconds_left': seconds_left,
+            'current_question_id': question.id,
+            'opponent_answer': opponent_answer,
+        }
+
+        return CustomJsonResponse(data=data)
