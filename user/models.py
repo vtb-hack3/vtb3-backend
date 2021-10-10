@@ -13,7 +13,7 @@ class Player(CreateTracker):
         (EXPERT, 'эксперт'),
     )
 
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, unique=True)
 
     status = models.CharField(max_length=16, choices=STATUSES, default=BEGINNER)
 
