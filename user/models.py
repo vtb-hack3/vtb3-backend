@@ -21,3 +21,5 @@ class Player(CreateTracker):
 
     coins = models.PositiveBigIntegerField(default=10)
 
+    def __str__(self):
+        return f"id={self.id} {self.name} {self.status}, coins: {self.coins}"

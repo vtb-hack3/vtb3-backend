@@ -44,6 +44,9 @@ class GameRoom(CreateTracker):
     finished_at = models.DateTimeField(**nb)
     is_joinable = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"creator: {self.creator}, opponent: {self.opponent}"
+
 
 class GameAnswer(CreateTracker):
     room = models.ForeignKey(GameRoom, on_delete=models.PROTECT)
