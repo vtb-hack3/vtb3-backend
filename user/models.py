@@ -1,21 +1,23 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from utils.models import CreateTracker
 
 
-class Player(CreateTracker, AbstractUser):
+class Player(CreateTracker):
     BEGINNER = 'beginner'
     EXPERIENCED = 'experienced'
     EXPERT = 'expert'
-    PROFI = 'profi'
     STATUSES = (
         (BEGINNER, 'начинающий'),
         (EXPERIENCED, 'опытный'),
         (EXPERT, 'эксперт'),
-        (PROFI, 'профи'),
     )
 
-    status = models.CharField(max_length=16, choices=STATUSES)
+    name = models.CharField(max_length=64)
 
-    logo_url = models.URLField(max_length=1024)
+    status = models.CharField(max_length=16, choices=STATUSES, default=BEGINNER)
+
+    picture_id = models.PositiveSmallIntegerField(default=1)
+
+    coins = models.PositiveBigIntegerField(default=10)
+

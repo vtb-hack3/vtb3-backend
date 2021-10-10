@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'django_celery_beat',
     'debug_toolbar',
+    'rest_framework',
 
     # local apps
     'user',
@@ -138,8 +139,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
-AUTH_USER_MODEL = 'user.Player'
 
 
 # Static files (CSS, JavaScript, Images)
