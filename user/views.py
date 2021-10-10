@@ -19,4 +19,9 @@ class CreateUserAPIView(APIView):
 
 class UserTopAPIView(APIView):
     def get(self, request, user_id, *args, **kwargs):
-        return CustomJsonResponse(data={'top': random.randint(1, 5)})
+        player = Player.objects.filter(id=user_id)
+        if player.exists():
+            return CustomJsonResponse(data={'top': random.randint(1, 5)})
+        else:
+            return CustomJsonResponse(data=None, errors=f"There is no user with id = {user_id}")
+        

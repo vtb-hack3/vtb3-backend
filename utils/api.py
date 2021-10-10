@@ -8,7 +8,7 @@ from rest_framework import status
 class CustomJsonResponse(JsonResponse):
     def __init__(
             self,
-            data: Dict,
+            data: Optional[Dict],
             errors: Optional[Union[Dict, str]] = None,
             error_code: int = status.HTTP_404_NOT_FOUND,
             success_code: int = status.HTTP_200_OK,
