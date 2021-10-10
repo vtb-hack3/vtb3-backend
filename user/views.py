@@ -1,4 +1,4 @@
-from django.shortcuts import render
+import random
 from rest_framework.views import APIView
 
 
@@ -15,3 +15,8 @@ class CreateUserAPIView(APIView):
         player, _ = Player.objects.update_or_create(name=name, defaults=data)
 
         return CustomJsonResponse(data=PlayerSerializer(player).data)
+
+
+class UserTopAPIView(APIView):
+    def get(self, request, user_id, *args, **kwargs):
+        return CustomJsonResponse(data={'top': random.randint(1, 5)})
